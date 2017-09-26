@@ -2,7 +2,7 @@
 
 [CSS Modules](https://github.com/css-modules/css-modules) for Elixir. Build to integrate well with the [Phoenix Framework](http://phoenixframework.org/).
 
-[![Hex.pm](https://img.shields.io/hexpm/v/ex_cell.svg)](https://hex.pm/packages/ex_css_modules)
+[![Hex.pm](https://img.shields.io/hexpm/v/ex_css_modules.svg)](https://hex.pm/packages/ex_css_modules)
 [![CircleCI](https://circleci.com/gh/DefactoSoftware/ex_css_modules/tree/master.svg?style=shield)](https://circleci.com/gh/DefactoSoftware/ex_css_modules)
 
 ExCSSModules currently requires the CSS Modules definitions JSON file to be compiled next to the CSS file itself and the files to be compiled before the Elixir application is build.
