@@ -1,0 +1,50 @@
+defmodule ExCSSModules.ViewTest do
+  @example_stylesheet __ENV__.file
+                      |> Path.dirname
+                      |> Path.join("../support/stylesheet.css")
+
+  use ExUnit.Case
+
+  defmodule ViewModuleTest do
+    use ExCSSModules.View, stylesheet: __ENV__.file
+                                      |> Path.dirname
+                                      |> Path.join("../support/stylesheet.css")
+
+  end
+
+  describe "stylesheet/0" do
+    test "calls the stylesheet" do
+      assert ViewModuleTest.stylesheet == ExCSSModules.stylesheet(@example_stylesheet)
+    end
+  end
+
+  describe "class_selector/1" do
+    test "prepends the class_name with a dot" do
+      assert ViewModuleTest.class_selector("title") ==
+        ExCSSModules.class_selector(@example_stylesheet, "title")
+    end
+  end
+
+  describe "class_name/1" do
+    test "calls the css/2 method on ExCSSModules" do
+      assert ViewModuleTest.class_name("title") ==
+        ExCSSModules.class_name(@example_stylesheet, "title")
+    end
+  end
+
+  describe "class_name/2" do
+    test "calls the css/3 method on ExCSSModules" do
+      assert ViewModuleTest.class_name("title", true) ==
+        ExCSSModules.class_name(@example_stylesheet, "title", true)
+      assert ViewModuleTest.class_name("title", false) ==
+        ExCSSModules.class_name(@example_stylesheet, "title", false)
+    end
+  end
+
+  describe "class/1" do
+    test "creates a safe Phoenix HTML class based on the stylesheet" do
+      assert ViewModuleTest.class("title") ==
+        ExCSSModules.class(@example_stylesheet, "title")
+    end
+  end
+end
