@@ -4,7 +4,7 @@ defmodule ExCell.Mixfile do
   @version "0.0.1"
 
   def project do
-    [app: :ex_cell,
+    [app: :ex_css_modules,
      name: "ExCSSModules",
      source_url: "https://github.com/defactosoftware/ex_css_modules",
      version: @version,
