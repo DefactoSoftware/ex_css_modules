@@ -32,7 +32,7 @@ defmodule ExCell.Mixfile do
 
   defp package do
     [
-      name: :ex_cell,
+      name: :ex_css_modules,
       maintainers: ["Jesse Dijkstra"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/defactosoftware/ex_css_modules"}
