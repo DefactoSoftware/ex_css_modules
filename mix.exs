@@ -13,7 +13,9 @@ defmodule ExCSSModules.Mixfile do
      build_per_environment: false,
      description: description(),
      package: package(),
-     deps: deps()]
+     deps: deps(),
+     test_coverage: [tool: ExCoveralls],
+     preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test]]
   end
 
   def application do
@@ -42,6 +44,7 @@ defmodule ExCSSModules.Mixfile do
   defp deps do
     [
       {:ex_doc, ">= 0.0.0", only: [:dev, :test]},
+      {:excoveralls, "~> 0.7", only: :test},
       {:phoenix_html, "~> 2.10"},
       {:poison, "~> 3.1"},
       {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
