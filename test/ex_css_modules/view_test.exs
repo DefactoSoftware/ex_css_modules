@@ -7,14 +7,33 @@ defmodule ExCSSModules.ViewTest do
 
   defmodule ViewModuleTest do
     use ExCSSModules.View, stylesheet: __ENV__.file
-                                      |> Path.dirname
-                                      |> Path.join("../support/stylesheet.css")
+                                       |> Path.dirname
+                                       |> Path.join("../support/stylesheet.css")
+  end
 
+  defmodule EmbeddedViewModuleTest do
+    use ExCSSModules.View, stylesheet: __ENV__.file
+                                       |> Path.dirname
+                                       |> Path.join("../support/stylesheet.css"),
+                           embed_stylesheet: true
+  end
+
+  describe "stylesheet_definition/0" do
+    test "gets the stylesheet string" do
+      assert ViewModuleTest.stylesheet_definition
+        == Path.expand(@example_stylesheet)
+    end
+
+    test "gets the embedded stylesheet" do
+      assert EmbeddedViewModuleTest.stylesheet_definition
+        == ExCSSModules.stylesheet(@example_stylesheet)
+    end
   end
 
   describe "stylesheet/0" do
     test "calls the stylesheet" do
-      assert ViewModuleTest.stylesheet == ExCSSModules.stylesheet(@example_stylesheet)
+      assert ViewModuleTest.stylesheet
+        == ExCSSModules.stylesheet(@example_stylesheet)
     end
   end
 

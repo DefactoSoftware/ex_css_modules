@@ -21,7 +21,7 @@ defmodule ExCSSModules do
   def stylesheet(definition) when is_map(definition), do: definition
 
   @doc false
-  def stylesheet(definition), do: definition |> read_stylesheet()
+  def stylesheet(definition), do: read_stylesheet(definition)
 
   def read_stylesheet(filename) do
     case File.exists?(filename) do
