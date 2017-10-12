@@ -18,7 +18,8 @@ defmodule ExCSSModules.View do
   """
 
   defmacro __using__(opts \\ []) do
-    {file, [file: relative_to]} = Code.eval_quoted(opts[:stylesheet], file: __CALLER__.file)
+    {file, [file: relative_to]} =
+      Code.eval_quoted(opts[:stylesheet], file: __CALLER__.file)
 
     file = Path.expand(file, Path.dirname(relative_to))
 
