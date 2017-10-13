@@ -5,14 +5,18 @@
 [![Hex.pm](https://img.shields.io/hexpm/v/ex_css_modules.svg)](https://hex.pm/packages/ex_css_modules)
 [![CircleCI](https://circleci.com/gh/DefactoSoftware/ex_css_modules/tree/master.svg?style=shield)](https://circleci.com/gh/DefactoSoftware/ex_css_modules)
 
-ExCSSModules currently requires the CSS Modules definitions JSON file to be compiled next to the CSS file itself and the files to be compiled before the Elixir application is build.
+ExCSSModules defines two ways to read the stylesheet: embedded and read.
+
+If you said the `embed_stylesheet` option to the `use` macro the stylesheet definitions JSON have to be compiled before the application is compiled. This flag is used for production to optimize read times.
+
+If you don't set the flag or set it to false, the stylesheet definition JSON files are read live from the server which creates a lot of IO for each request.
 
 ## Installation
 Install from [Hex.pm](https://hex.pm/packages/ex_css_modules):
 
 ```ex
 def deps do
-  [{:ex_css_modules, "~> 0.0.1"}]
+  [{:ex_css_modules, "~> 0.0.3"}]
 end
 ```
 
