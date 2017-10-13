@@ -7,6 +7,8 @@ defmodule ExCSSModules.View do
   Use the ExCSSModules.View on a view which defines the JSON for CSS Modules
   as an external resource.
 
+  To embed the stylesheet in the file set :embed_stylesheet to true.
+
   If adds the following functions to the View:
   - stylesheet/0 - same as ExCSSModules.stylesheet/1 with the stylesheet predefined
   - class/1 - same as ExCSSModules.class/2 with the stylesheet predefined
@@ -14,20 +16,35 @@ defmodule ExCSSModules.View do
   - class_name/2 - same as ExCSSModules.class_name/3 with the stylesheet predefined
   - class_selector/1 - same as ExCSSModules.class_selector/2 with the stylesheet predefined
   """
+
   defmacro __using__(opts \\ []) do
+    {file, [file: relative_to]} =
+      Code.eval_quoted(opts[:stylesheet], file: __CALLER__.file)
+
+    file = Path.expand(file, Path.dirname(relative_to))
+
     quote do
-      @external_resource unquote(opts[:stylesheet]) <> ".json"
-      @stylesheet ExCSSModules.read_stylesheet(unquote(opts[:stylesheet]))
+      @stylesheet unquote(
+        if opts[:embed_stylesheet] do
+          Macro.escape(ExCSSModules.read_stylesheet(file))
+        else
+          Macro.escape(file)
+        end
+      )
+
+      def stylesheet_definition, do: @stylesheet
 
       def stylesheet, do: ExCSSModules.stylesheet(@stylesheet)
 
-      def class(key), do: ExCSSModules.class(@stylesheet, key)
+      def class(key), do: stylesheet() |> ExCSSModules.class(key)
 
-      def class_name(key), do: ExCSSModules.class_name(@stylesheet, key)
+      def class_name(key) do
+        ExCSSModules.class_name(stylesheet(), key)
+      end
       def class_name(key, value), do:
-        ExCSSModules.class_name(@stylesheet, key, value)
+        ExCSSModules.class_name(stylesheet(), key, value)
 
-      def class_selector(key), do: ExCSSModules.class_selector(@stylesheet, key)
+      def class_selector(key), do: ExCSSModules.class_selector(stylesheet(), key)
     end
   end
 end
