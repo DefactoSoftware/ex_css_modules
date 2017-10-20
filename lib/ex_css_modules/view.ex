@@ -18,17 +18,20 @@ defmodule ExCSSModules.View do
   """
 
   defmacro __using__(opts \\ []) do
-    {file, [file: relative_to]} =
+    {filename, [file: relative_to]} =
       Code.eval_quoted(opts[:stylesheet], file: __CALLER__.file)
 
-    file = Path.expand(file, Path.dirname(relative_to))
+    {embed, _} =
+      Code.eval_quoted(opts[:embed_stylesheet])
+
+    filename = Path.expand(filename, Path.dirname(relative_to))
 
     quote do
       @stylesheet unquote(
-        if opts[:embed_stylesheet] do
-          Macro.escape(ExCSSModules.read_stylesheet(file))
+        if embed do
+          Macro.escape(ExCSSModules.read_stylesheet(filename))
         else
-          Macro.escape(file)
+          Macro.escape(filename)
         end
       )
 
