@@ -19,6 +19,22 @@ defmodule ExCSSModulesTest do
     end
   end
 
+  describe "class/2" do
+    test "returns a Phoenix.HTML :safe class attribute for an existing classname" do
+      assert ExCSSModules.class(
+        %{"hello" => "world"},
+        "hello"
+      ) == {:safe, "class=\"world\""}
+    end
+
+    test "returns an empty Phoenix.HTML :safe class attribute for a non existing classname" do
+      assert ExCSSModules.class(
+        %{"hello" => "world"},
+        "foo"
+      ) == {:safe, "class=\"\""}
+    end
+  end
+
   describe "class_name/3" do
     test "returns the definition when value is true" do
       assert ExCSSModules.class_name(
