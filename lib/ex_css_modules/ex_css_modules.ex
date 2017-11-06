@@ -43,7 +43,7 @@ defmodule ExCSSModules do
   def class(definition, classes) do
     definition
     |> class_name(classes)
-    |> class_attribute
+    |> class_attribute()
   end
 
   @doc """
@@ -58,11 +58,9 @@ defmodule ExCSSModules do
     nil
   """
   def class(definition, classes, value) do
-    if value do
-      definition
-      |> class_name(classes)
-      |> class_attribute
-    end
+    definition
+    |> class_name(classes, value)
+    |> class_attribute()
   end
 
   @doc """
@@ -108,12 +106,20 @@ defmodule ExCSSModules do
 
     iex> class_name(%{"hello" => "world", "foo" => "bar"}, [{"hello", true}, {"foo", false}])
     "world"
+
+    iex> class_name(%{"hello" => "world", "foo" => "bar"}, [{"hello", false}])
+    nil
   """
   def class_name(definition, keys) when is_list(keys) do
-    keys
-    |> Enum.map(&class_name(definition, &1))
-    |> Enum.reject(&is_nil/1)
-    |> Enum.join(" ")
+    list = keys
+      |> Enum.map(&class_name(definition, &1))
+      |> Enum.reject(&is_nil/1)
+
+    if Enum.any?(list) do
+      Enum.join(list, " ")
+    else
+      nil
+    end
   end
 
   @doc """
@@ -158,5 +164,6 @@ defmodule ExCSSModules do
     end
   end
 
+  defp class_attribute(nil), do: nil
   defp class_attribute(class), do: HTML.raw(~s(class="#{class}"))
 end

@@ -27,11 +27,8 @@ defmodule ExCSSModulesTest do
       ) == {:safe, ~s(class="world")}
     end
 
-    test "returns an empty class attribute for a non existing classname" do
-      assert ExCSSModules.class(
-        %{"hello" => "world"},
-        "foo"
-      ) == {:safe, ~s(class="")}
+    test "returns nil for a non existing classname" do
+      assert ExCSSModules.class(%{"hello" => "world"}, "foo") == nil
     end
   end
 
@@ -91,6 +88,13 @@ defmodule ExCSSModulesTest do
         %{"hello" => "world", "foo" => "bar"},
         "hello"
       ) == "world"
+    end
+
+    test "returns nil ...." do
+      assert ExCSSModules.class_name(
+        %{"hello" => "world", "foo" => "bar"},
+        [{"hello", false}]
+      ) == nil
     end
 
     test "defaults to nil" do
