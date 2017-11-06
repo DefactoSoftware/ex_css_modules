@@ -40,6 +40,7 @@ defmodule ExCSSModules.View do
       def stylesheet, do: ExCSSModules.stylesheet(@stylesheet)
 
       def class(key), do: stylesheet() |> ExCSSModules.class(key)
+      def class(key, value), do: stylesheet() |> ExCSSModules.class(key, value)
 
       def class_name(key) do
         ExCSSModules.class_name(stylesheet(), key)

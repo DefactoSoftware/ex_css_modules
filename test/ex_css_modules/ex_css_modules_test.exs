@@ -20,18 +20,32 @@ defmodule ExCSSModulesTest do
   end
 
   describe "class/2" do
-    test "returns a Phoenix.HTML :safe class attribute for an existing classname" do
+    test "returns a class attribute for an existing classname" do
       assert ExCSSModules.class(
         %{"hello" => "world"},
         "hello"
-      ) == {:safe, "class=\"world\""}
+      ) == {:safe, ~s(class="world")}
     end
 
-    test "returns an empty Phoenix.HTML :safe class attribute for a non existing classname" do
+    test "returns an empty class attribute for a non existing classname" do
       assert ExCSSModules.class(
         %{"hello" => "world"},
         "foo"
-      ) == {:safe, "class=\"\""}
+      ) == {:safe, ~s(class="")}
+    end
+  end
+
+  describe "class/3" do
+    test "returns a class attribute for an existing classname when value is true" do
+      assert ExCSSModules.class(
+        %{"hello" => "world"},
+        "hello",
+        true
+      ) == {:safe, ~s(class="world")}
+    end
+
+    test "returns nil for an existing classname when value is false" do
+      assert ExCSSModules.class(%{"hello" => "world"}, "hello", false) == nil
     end
   end
 

@@ -47,6 +47,25 @@ defmodule ExCSSModules do
   end
 
   @doc """
+  If `value` is truthy, read the class definitions and maps them to a class attribute.
+  When `value` is falsy return nil.
+
+  ## Examples
+    iex> class(%{ "hello" => "world"}, "hello", true)
+    {:safe, ~s(class="world")}
+
+    iex> class(%{ "hello" => "world"}, "hello", false)
+    nil
+  """
+  def class(definition, classes, value) do
+    if value do
+      definition
+      |> class_name(classes)
+      |> class_attribute
+    end
+  end
+
+  @doc """
   Returns the class name from the definition map if value is true.
 
   ## Examples

@@ -66,4 +66,13 @@ defmodule ExCSSModules.ViewTest do
         ExCSSModules.class(@example_stylesheet, "title")
     end
   end
+
+  describe "class/2" do
+    test "calls the class/3 method on ExCSSModules" do
+      assert ViewModuleTest.class("title", true) ==
+        ExCSSModules.class(@example_stylesheet, "title", true)
+      assert ViewModuleTest.class("title", false) ==
+        ExCSSModules.class(@example_stylesheet, "title", false)
+    end
+  end
 end
