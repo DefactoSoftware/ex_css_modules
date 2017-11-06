@@ -90,7 +90,7 @@ defmodule ExCSSModulesTest do
       ) == "world"
     end
 
-    test "returns nil ...." do
+    test "returns nil for an existing classname when value is false" do
       assert ExCSSModules.class_name(
         %{"hello" => "world", "foo" => "bar"},
         [{"hello", false}]

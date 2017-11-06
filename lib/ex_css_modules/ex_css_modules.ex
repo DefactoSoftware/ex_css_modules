@@ -111,15 +111,10 @@ defmodule ExCSSModules do
     nil
   """
   def class_name(definition, keys) when is_list(keys) do
-    list = keys
-      |> Enum.map(&class_name(definition, &1))
-      |> Enum.reject(&is_nil/1)
-
-    if Enum.any?(list) do
-      Enum.join(list, " ")
-    else
-      nil
-    end
+    keys
+    |> Enum.map(&class_name(definition, &1))
+    |> Enum.reject(&is_nil/1)
+    |> join_class_name()
   end
 
   @doc """
@@ -166,4 +161,7 @@ defmodule ExCSSModules do
 
   defp class_attribute(nil), do: nil
   defp class_attribute(class), do: HTML.raw(~s(class="#{class}"))
+
+  defp join_class_name(list) when length(list) == 0, do: nil
+  defp join_class_name(list), do: Enum.join(list, " ")
 end
