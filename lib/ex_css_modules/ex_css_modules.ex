@@ -47,7 +47,7 @@ defmodule ExCSSModules do
   end
 
   @doc """
-  Returns the class name from the definition map is value is true.
+  Returns the class name from the definition map if value is true.
 
   ## Examples
     iex> class_name(%{"hello" => "world"}, "hello", true)
@@ -63,7 +63,7 @@ defmodule ExCSSModules do
   end
 
   @doc """
-  Returns the class name from the definition map is the second argument
+  Returns the class name from the definition map if the second argument
   in the tuple is true.
 
   ## Examples
