@@ -61,9 +61,18 @@ defmodule ExCSSModules.ViewTest do
   end
 
   describe "class/1" do
-    test "creates a safe Phoenix HTML class based on the stylesheet" do
+    test "calls the class/2 method on ExCSSModules" do
       assert ViewModuleTest.class("title") ==
         ExCSSModules.class(@example_stylesheet, "title")
+    end
+  end
+
+  describe "class/2" do
+    test "calls the class/3 method on ExCSSModules" do
+      assert ViewModuleTest.class("title", true) ==
+        ExCSSModules.class(@example_stylesheet, "title", true)
+      assert ViewModuleTest.class("title", false) ==
+        ExCSSModules.class(@example_stylesheet, "title", false)
     end
   end
 end

@@ -19,6 +19,33 @@ defmodule ExCSSModulesTest do
     end
   end
 
+  describe "class/2" do
+    test "returns a class attribute for an existing classname" do
+      assert ExCSSModules.class(
+        %{"hello" => "world"},
+        "hello"
+      ) == {:safe, ~s(class="world")}
+    end
+
+    test "returns nil for a non existing classname" do
+      assert ExCSSModules.class(%{"hello" => "world"}, "foo") == nil
+    end
+  end
+
+  describe "class/3" do
+    test "returns a class attribute for an existing classname when value is true" do
+      assert ExCSSModules.class(
+        %{"hello" => "world"},
+        "hello",
+        true
+      ) == {:safe, ~s(class="world")}
+    end
+
+    test "returns nil for an existing classname when value is false" do
+      assert ExCSSModules.class(%{"hello" => "world"}, "hello", false) == nil
+    end
+  end
+
   describe "class_name/3" do
     test "returns the definition when value is true" do
       assert ExCSSModules.class_name(
@@ -61,6 +88,13 @@ defmodule ExCSSModulesTest do
         %{"hello" => "world", "foo" => "bar"},
         "hello"
       ) == "world"
+    end
+
+    test "returns nil for an existing classname when value is false" do
+      assert ExCSSModules.class_name(
+        %{"hello" => "world", "foo" => "bar"},
+        [{"hello", false}]
+      ) == nil
     end
 
     test "defaults to nil" do

@@ -43,11 +43,28 @@ defmodule ExCSSModules do
   def class(definition, classes) do
     definition
     |> class_name(classes)
-    |> class_attribute
+    |> class_attribute()
   end
 
   @doc """
-  Returns the class name from the definition map is value is true.
+  If `value` is truthy, read the class definitions and maps them to a class attribute.
+  When `value` is falsy return nil.
+
+  ## Examples
+    iex> class(%{ "hello" => "world"}, "hello", true)
+    {:safe, ~s(class="world")}
+
+    iex> class(%{ "hello" => "world"}, "hello", false)
+    nil
+  """
+  def class(definition, classes, value) do
+    definition
+    |> class_name(classes, value)
+    |> class_attribute()
+  end
+
+  @doc """
+  Returns the class name from the definition map if value is true.
 
   ## Examples
     iex> class_name(%{"hello" => "world"}, "hello", true)
@@ -63,7 +80,7 @@ defmodule ExCSSModules do
   end
 
   @doc """
-  Returns the class name from the definition map is the second argument
+  Returns the class name from the definition map if the second argument
   in the tuple is true.
 
   ## Examples
@@ -89,12 +106,15 @@ defmodule ExCSSModules do
 
     iex> class_name(%{"hello" => "world", "foo" => "bar"}, [{"hello", true}, {"foo", false}])
     "world"
+
+    iex> class_name(%{"hello" => "world", "foo" => "bar"}, [{"hello", false}])
+    nil
   """
   def class_name(definition, keys) when is_list(keys) do
     keys
     |> Enum.map(&class_name(definition, &1))
     |> Enum.reject(&is_nil/1)
-    |> Enum.join(" ")
+    |> join_class_name()
   end
 
   @doc """
@@ -139,5 +159,9 @@ defmodule ExCSSModules do
     end
   end
 
+  defp class_attribute(nil), do: nil
   defp class_attribute(class), do: HTML.raw(~s(class="#{class}"))
+
+  defp join_class_name(list) when length(list) == 0, do: nil
+  defp join_class_name(list), do: Enum.join(list, " ")
 end
