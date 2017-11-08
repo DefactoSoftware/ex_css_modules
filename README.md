@@ -39,12 +39,12 @@ This allows you to use the `class` and `class_name` functions in the template an
 ```
 
 **Template:**
-```ex
+```eex
   <h1 <%= class "title" %>>Hello world</h1>
 ```
 
 **Output:**
-```ex
+```eex
   <h1 class="_2313dsc-title">Hello world</h1>
 ```
 ## Advanced usage
