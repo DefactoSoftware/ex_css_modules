@@ -1,7 +1,12 @@
+# v0.0.5
+
+## Added
+- Add `class/2` for conditional checking (#10).
+
 # v0.0.4
 
 ## Changed
-- The embed option is now evaluated to allow `Mix.env == :prod` and other code that needs to be evaluated (#7)
+- The embed option is now evaluated to allow `Mix.env == :prod` and other code that needs to be evaluated (#7).
 
 # v0.0.3
 
