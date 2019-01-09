@@ -7,7 +7,7 @@
 
 ExCSSModules defines two ways to read the stylesheet: embedded and read.
 
-If you said the `embed_stylesheet` option to the `use` macro the stylesheet definitions JSON have to be compiled before the application is compiled. This flag is used for production to optimize read times.
+If you set the `embed_stylesheet` option to the `use` macro the stylesheet definitions JSON have to be compiled before the application is compiled. This flag is used for production to optimize read times.
 
 If you don't set the flag or set it to false, the stylesheet definition JSON files are read live from the server which creates a lot of IO for each request.
 
