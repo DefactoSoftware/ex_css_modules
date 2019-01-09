@@ -71,7 +71,7 @@ def view() do
 end
 ```
 
-### ExCSSModules
+### ExCell
 ExCSSModules works perfectly with [ExCell](https://github.com/DefactoSoftware/ex_cell). By adding the following to your `web.ex` definition for cells you can automatically add the stylesheet in the same directory as your ExCell Cell:
 ```ex
 def cell() do
