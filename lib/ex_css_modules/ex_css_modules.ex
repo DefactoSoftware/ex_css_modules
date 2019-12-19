@@ -45,8 +45,8 @@ defmodule ExCSSModules do
 
   @doc """
   Reads the class definitions from the definition map and maps them to a class
-  attribute. The classes argument takes any argument and uses the class_name/1
-  for the key.
+  attribute. The `keys` argument is used to retrieve the class name or multiple
+  class names with class_name/1.
 
   Returns nil for a class_name that does not exist.
 
@@ -59,26 +59,28 @@ defmodule ExCSSModules do
       nil
 
   """
-  def class(definition, classes) do
+  def class(definition, keys) do
     definition
-    |> class_name(classes)
+    |> class_name(keys)
     |> class_attribute()
   end
 
   @doc """
-  If `value` is truthy, read the class definitions and maps them to a class attribute.
-  When `value` is falsy return nil.
+  If `return_class?` is truthy, reads the class definitions and maps them to a
+  class attribute. When `return_class?` is falsy returns nil.
 
   ## Examples
-    iex> class(%{ "hello" => "world"}, "hello", true)
-    {:safe, ~s(class="world")}
 
-    iex> class(%{ "hello" => "world"}, "hello", false)
-    nil
+      iex> class(%{ "hello" => "world"}, "hello", true)
+      {:safe, ~s(class="world")}
+
+      iex> class(%{ "hello" => "world"}, "hello", false)
+      nil
+
   """
-  def class(definition, classes, value) do
+  def class(definition, keys, return_class?) do
     definition
-    |> class_name(classes, value)
+    |> class_name(keys, return_class?)
     |> class_attribute()
   end
 

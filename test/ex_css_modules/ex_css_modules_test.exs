@@ -7,20 +7,6 @@ defmodule ExCSSModulesTest do
 
   doctest ExCSSModules, import: true
 
-  describe "class/3" do
-    test "returns a class attribute for an existing classname when value is true" do
-      assert ExCSSModules.class(
-        %{"hello" => "world"},
-        "hello",
-        true
-      ) == {:safe, ~s(class="world")}
-    end
-
-    test "returns nil for an existing classname when value is false" do
-      assert ExCSSModules.class(%{"hello" => "world"}, "hello", false) == nil
-    end
-  end
-
   describe "class_name/2" do
     test "use class_name/3 when the key is a tuple" do
       assert ExCSSModules.class_name(%{"hello" => "world"}, "hello", true) ==
