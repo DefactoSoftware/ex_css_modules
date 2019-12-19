@@ -83,20 +83,20 @@ defmodule ExCSSModules do
   end
 
   @doc """
-  Returns the class name from the definition map if value is true.
+  Returns the class name from the definition map if the last argument is true.
+  Returns nil if the last argument is false.
 
   ## Examples
-    iex> class_name(%{"hello" => "world"}, "hello", true)
-    "world"
 
-    iex> class_name(%{"hello" => "world"}, "hello", false)
-    nil
+      iex> class_name(%{"hello" => "world"}, "hello", true)
+      "world"
+
+      iex> class_name(%{"hello" => "world"}, "hello", false)
+      nil
+
   """
-  def class_name(definition, key, value) do
-    if value do
-      class_name(definition, key)
-    end
-  end
+  def class_name(definition, key, true), do: class_name(definition, key)
+  def class_name(_, _, false), do: nil
 
   @doc """
   Returns the class name from the definition map if the second argument

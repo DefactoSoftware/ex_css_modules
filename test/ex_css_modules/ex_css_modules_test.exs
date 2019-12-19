@@ -21,20 +21,6 @@ defmodule ExCSSModulesTest do
     end
   end
 
-  describe "class_name/3" do
-    test "returns the definition when value is true" do
-      assert ExCSSModules.class_name(
-        %{"hello" => "world"},
-        "hello",
-        true
-      ) == "world"
-    end
-
-    test "returns nil when value is false" do
-      assert ExCSSModules.class_name(%{"hello" => "world"}, "hello", false) == nil
-    end
-  end
-
   describe "class_name/2" do
     test "use class_name/3 when the key is a tuple" do
       assert ExCSSModules.class_name(%{"hello" => "world"}, "hello", true) ==
