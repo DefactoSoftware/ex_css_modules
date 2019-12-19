@@ -45,11 +45,19 @@ defmodule ExCSSModules do
 
   @doc """
   Reads the class definitions from the definition map and maps them to a class
-  attribute. The classes argument takes any argument the class_name for the key.
+  attribute. The classes argument takes any argument and uses the class_name/1
+  for the key.
+
+  Returns nil for a class_name that does not exist.
 
   ## Examples
-    iex> class(%{ "hello" => "world"}, "hello")
-    {:safe, ~s(class="world")}
+
+      iex> class(%{ "hello" => "world"}, "hello")
+      {:safe, ~s(class="world")}
+
+      iex> class(%{"hello" => "world"}, "foo")
+      nil
+
   """
   def class(definition, classes) do
     definition
