@@ -2,22 +2,10 @@ defmodule ExCSSModulesTest do
   use ExUnit.Case
 
   @example_stylesheet __ENV__.file
-                      |> Path.dirname
+                      |> Path.dirname()
                       |> Path.join("../support/stylesheet.css")
 
-  describe "read_stylesheet/1" do
-    test "reads a valid stylesheet definition" do
-      assert ExCSSModules.read_stylesheet(@example_stylesheet) ==
-        %{
-          "title" => "_namespaced_title",
-          "paragraph" => "_namespaced_paragraph"
-        }
-    end
-
-    test "ignores an invalid stylesheet definition" do
-      assert ExCSSModules.read_stylesheet("foobar") == %{}
-    end
-  end
+  doctest ExCSSModules, import: true
 
   describe "class/2" do
     test "returns a class attribute for an existing classname" do

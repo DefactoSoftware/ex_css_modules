@@ -2,33 +2,44 @@ defmodule ExCSSModules do
   @moduledoc """
   CSS Modules helpers
   """
-
   alias __MODULE__
   alias Phoenix.HTML
 
   @doc """
-  Reads the stylesheet. Returns a map if the stylesheet is already a map. Reads
-  the file if the stylesheet is a string.
+  Reads a valid stylesheet definition. Returns a map if the stylesheet is
+  already a map. Reads the file if the stylesheet is a string. Returns an empty
+  map if the stylesheet does not exist.
 
   ## Examples
 
-    iex> stylesheet(%{})
-    %{}
+      iex> stylesheet(@example_stylesheet)
+      %{
+        "title" => "_namespaced_title",
+        "paragraph" => "_namespaced_paragraph"
+      }
 
-    iex> stylesheet("../stylesheet.css")
-    %{}
+      iex> stylesheet(%{"title" => "_namespaced_title", "paragraph" => "_namespaced_paragraph"})
+      %{
+        "title" => "_namespaced_title",
+        "paragraph" => "_namespaced_paragraph"
+      }
+
+      iex> stylesheet("foobar")
+      %{}
+
   """
   def stylesheet(definition) when is_map(definition), do: definition
-
-  @doc false
   def stylesheet(definition), do: read_stylesheet(definition)
 
-  def read_stylesheet(filename) do
+  defp read_stylesheet(filename) do
     case File.exists?(filename) do
-      true -> filename <> ".json"
-              |> File.read!
-              |> Poison.decode!
-      false -> %{}
+      true ->
+        (filename <> ".json")
+        |> File.read!()
+        |> Poison.decode!()
+
+      false ->
+        %{}
     end
   end
 
