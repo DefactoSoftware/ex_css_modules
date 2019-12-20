@@ -101,35 +101,41 @@ defmodule ExCSSModules do
   def class_name(_, _, false), do: nil
 
   @doc """
-  Returns the class name from the definition map if the second argument
-  in the tuple is true.
+  Returns the class name or class names from the definition map, concatenated as
+  one string separated by spaces.
+
+  Second argument can be a string name of the key, a tuple with `{key, boolean}`
+  or a list of keys or tuples.
 
   ## Examples
-    iex> class_name(%{"hello" => "world"}, {"hello", true})
-    "world"
 
-    iex> class_name(%{"hello" => "world"}, {"hello", false})
-    nil
-  """
-  def class_name(definition, {key, value}), do:
-    class_name(definition, key, value)
+      iex> class_name(%{"hello" => "world"}, "hello")
+      "world"
 
-  @doc """
-  Returns the class name sfrom the definition map when the argument is a list
-  of values or tuples.
+      iex> class_name(%{"hello" => "world"}, "foo")
+      nil
 
-  ## Examples
-    iex> class_name(%{"hello" => "world", "foo" => "bar"}, ["hello", "foo"])
-    "world bar"
+      iex> class_name(%{"hello" => "world"}, {"hello", true})
+      "world"
 
-    iex> class_name(%{"hello" => "world", "foo" => "bar"}, [{"hello", true}, {"foo", true}])
-    "world bar"
+      iex> class_name(%{"hello" => "world"}, {"hello", false})
+      nil
 
-    iex> class_name(%{"hello" => "world", "foo" => "bar"}, [{"hello", true}, {"foo", false}])
-    "world"
+      iex> class_name(%{"hello" => "world", "foo" => "bar"}, ["hello", "foo"])
+      "world bar"
 
-    iex> class_name(%{"hello" => "world", "foo" => "bar"}, [{"hello", false}])
-    nil
+      iex> class_name(%{"hello" => "world", "foo" => "bar"}, [{"hello", true}, {"foo", true}])
+      "world bar"
+
+      iex> class_name(%{"hello" => "world", "foo" => "bar"}, [{"hello", true}, {"foo", false}])
+      "world"
+
+      iex> class_name(%{"hello" => "world", "foo" => "bar"}, [{"hello", false}])
+      nil
+
+      iex> class_name(%{}, "hello")
+      nil
+
   """
   def class_name(definition, keys) when is_list(keys) do
     keys
@@ -138,19 +144,10 @@ defmodule ExCSSModules do
     |> join_class_name()
   end
 
-  @doc """
-  Returns the class name sfrom the definition map when the argument is a list
-  of values or tuples.
+  def class_name(definition, {key, return_class?}), do: class_name(definition, key, return_class?)
 
-  ## Examples
-    iex> class_name(%{"hello" => "world"}, "hello")
-    "world"
-
-    iex> class_name(%{"hello" => "world"}, "foo")
-    nil
-  """
-  def class_name(stylesheet, key) do
-    stylesheet
+  def class_name(definition, key) do
+    definition
     |> stylesheet()
     |> Map.get(key, nil)
   end
