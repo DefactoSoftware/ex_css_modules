@@ -21,7 +21,7 @@ jobs:
       - run: mix coveralls.json
       - run: bash <(curl -s https://codecov.io/bash) -t "$CODECOV_KEY"
       - run: mix dialyzer
-      - run: mix credo --strict
+      - run: mix credo
       - save_cache:
           key: v1-mix-deps-{{ checksum "mix.lock" }}
           paths:
