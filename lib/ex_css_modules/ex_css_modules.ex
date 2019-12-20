@@ -154,31 +154,40 @@ defmodule ExCSSModules do
 
   @doc """
   Takes the definition and makes a class selector that can be used in CSS out of
-  the classes given. Takes either a single value or a list of classes.
+  the keys given. Takes either a single value or a list of keys.
 
   ## Examples
-    iex> class_selector(%{ "hello" => "world"}, "hello")
-    ".world"
-    iex> class_selector(%{ "hello" => "world", "foo" => "bar"}, ["hello", "foo"])
-    ".world.foo"
+
+      iex> class_selector(@example_stylesheet, "title")
+      "._namespaced_title"
+
+      iex> class_selector(@example_stylesheet, ["title", "paragraph"])
+      "._namespaced_title._namespaced_paragraph"
+
+      iex> class_selector(@example_stylesheet, "foo")
+      nil
+
+      iex> class_selector(%{ "hello" => "world"}, "hello")
+      ".world"
+
+      iex> class_selector(%{ "hello" => "world", "foo" => "bar"}, ["hello", "foo"])
+      ".world.bar"
+
   """
-  def class_selector(definition, classes) when is_list(classes) do
-    classes
+  def class_selector(definition, keys) when is_list(keys) do
+    keys
     |> Enum.map(&class_selector(definition, &1))
     |> Enum.reject(&is_nil/1)
-    |> Enum.join("")
+    |> List.to_string()
   end
 
-  @doc false
-  def class_selector(definition, class) do
-    case class_name(definition, class) do
-      nil -> nil
-      value -> ".#{value}"
-    end
-  end
+  def class_selector(definition, key), do: definition |> class_name(key) |> class_selector()
 
+  defp class_selector(class) when is_binary(class), do: ".#{class}"
+  defp class_selector(nil), do: nil
+
+  defp class_attribute(class) when is_binary(class), do: HTML.raw(~s(class="#{class}"))
   defp class_attribute(nil), do: nil
-  defp class_attribute(class), do: HTML.raw(~s(class="#{class}"))
 
   defp join_class_name([_ | _] = list), do: Enum.join(list, " ")
   defp join_class_name([]), do: nil
