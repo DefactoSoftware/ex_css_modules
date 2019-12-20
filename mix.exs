@@ -50,7 +50,7 @@ defmodule ExCSSModules.Mixfile do
       {:phoenix_html, "~> 2.10"},
       {:poison, "~> 3.1"},
       {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
-      {:credo, "~> 0.8", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.1", only: [:dev, :test], runtime: false}
     ]
   end
 end
