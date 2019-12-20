@@ -25,7 +25,7 @@ defmodule ExCSSModules.View do
     quote do
       @stylesheet unquote(
                     if embed do
-                      Macro.escape(ExCSSModules.read_stylesheet(filename))
+                      Macro.escape(ExCSSModules.stylesheet(filename))
                     else
                       Macro.escape(filename)
                     end
