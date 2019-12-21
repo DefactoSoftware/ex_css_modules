@@ -10,18 +10,42 @@ jobs:
         environment:
           MIX_ENV: test
     steps:
-      - run: mix local.hex --force
-      - run: mix local.rebar --force
       - checkout
       - restore_cache:
           keys:
-            - v1-mix-deps-{{ checksum "mix.lock" }}
-      - run: mix deps.get
-      - run: mix compile --warnings-as-errors
-      - run: mix coveralls.json
-      - run: bash <(curl -s https://codecov.io/bash) -t "$CODECOV_KEY"
-      - run: mix dialyzer
-      - run: mix credo
+            - v1-hex-archive
+      - restore_cache:
+          keys:
+            - v1-mix-deps-{{ checksum "mix.exs" }}-{{ checksum "mix.lock" }}
+            - v1-mix-deps-
+      - run:
+          name: Create local hex archive
+          command: mix local.hex --force
+      - run:
+          name: Create local rebar
+          command: mix local.rebar --force
+      - run:
+          name: Installing Elixir dependencies
+          command: mix deps.get
+      - run:
+          name: Compile the Phoenix app
+          command: mix compile --warnings-as-errors
+      - run:
+          name: Linting Elixir
+          command: mix credo
+      - run:
+          name: Running Dializer
+          command: mix dialyzer
+      - run:
+          name: Running Elixir tests
+          command: mix coveralls.json
+      - run:
+          name: Send Codecov
+          command: bash <(curl -s https://codecov.io/bash) -t "$CODECOV_KEY"
+      - save_cache:
+          key: v1-hex-archive
+          paths:
+            - /root/.mix/archives
       - save_cache:
           key: v1-mix-deps-{{ checksum "mix.lock" }}
           paths:
