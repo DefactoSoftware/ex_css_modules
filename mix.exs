@@ -51,7 +51,7 @@ defmodule ExCSSModules.Mixfile do
       {:dialyxir, "~> 0.5", only: [:dev, :test]},
       {:phoenix_html, "~> 2.10"},
       {:poison, "~> 3.1"},
-      {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
+      {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false}
     ]
   end
