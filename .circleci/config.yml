@@ -6,7 +6,7 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      - image: defactosoftware/elixir
+      - image: defactosoftware/asdf:latest
         environment:
           MIX_ENV: test
     steps:
@@ -18,9 +18,18 @@ jobs:
           keys:
             - v1-mix-deps-{{ checksum "mix.exs" }}-{{ checksum "mix.lock" }}
             - v1-mix-deps-
+      - restore_cache:
+          keys:
+            - v1-tools-cache-{{ checksum ".tool-versions" }}
       - run:
           name: Installing Elixir dependencies
           command: mix deps.get
+      - run:
+          name: Install ASDF Plugins
+          command: asdf-install-plugins
+      - run:
+          name: Install ASDF Versions
+          command: asdf-install-versions
       - run:
           name: Create local hex archive
           command: mix local.hex --force
@@ -51,3 +60,8 @@ jobs:
           paths:
             - "deps"
             - "_build"
+      - save_cache:
+          key: v1-tools-cache-{{ checksum ".tool-versions" }}
+          paths:
+            - "~/.asdf/plugins"
+            - "~/.asdf/installs"
