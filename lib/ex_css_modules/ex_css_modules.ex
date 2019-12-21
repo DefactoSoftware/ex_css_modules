@@ -162,6 +162,6 @@ defmodule ExCSSModules do
   defp class_attribute(nil), do: nil
   defp class_attribute(class), do: HTML.raw(~s(class="#{class}"))
 
-  defp join_class_name(list) when length(list) == 0, do: nil
-  defp join_class_name(list), do: Enum.join(list, " ")
+  defp join_class_name([_ | _] = list), do: Enum.join(list, " ")
+  defp join_class_name([]), do: nil
 end
