@@ -47,7 +47,7 @@ defmodule ExCSSModules.Mixfile do
   defp deps do
     [
       {:ex_doc, ">= 0.0.0", only: [:dev, :test]},
-      {:excoveralls, "~> 0.7", only: :test},
+      {:excoveralls, git: "https://github.com/tarzan/excoveralls", only: :test},
       {:dialyxir, "~> 0.5", only: [:dev, :test]},
       {:phoenix_html, "~> 2.10"},
       {:poison, "~> 3.1"},
