@@ -96,6 +96,9 @@ defmodule ExCSSModules do
       iex> class_name(%{"hello" => "world"}, "hello", "anything")
       "world"
 
+      iex> class_name(%{"hello" => "world"}, :hello, true)
+      "world"
+
       iex> class_name(%{"hello" => "world"}, "hello", false)
       nil
 
@@ -111,8 +114,8 @@ defmodule ExCSSModules do
   Returns the class name or class names from the definition map, concatenated as
   one string separated by spaces.
 
-  Second argument can be a string name of the key, a tuple with `{key, boolean}`
-  or a list of keys or tuples.
+  Second argument can be a string or atom name of the key, a tuple with
+  `{key, boolean}` or a list of keys or tuples.
 
   ## Examples
 
@@ -137,6 +140,9 @@ defmodule ExCSSModules do
       iex> class_name(%{"hello" => "world", "foo" => "bar"}, [{"hello", true}, {"foo", false}])
       "world"
 
+      iex> class_name(%{"hello" => "world", "foo" => "bar"}, [{:hello, true}, {:foo, false}])
+      "world"
+
       iex> class_name(%{"hello" => "world", "foo" => "bar"}, [{"hello", false}])
       nil
 
@@ -152,6 +158,9 @@ defmodule ExCSSModules do
   end
 
   def class_name(definition, {key, return_class?}), do: class_name(definition, key, return_class?)
+
+  def class_name(definition, key) when is_atom(key),
+    do: key |> Atom.to_string() |> (&class_name(definition, &1)).()
 
   def class_name(definition, key) do
     definition
@@ -175,6 +184,9 @@ defmodule ExCSSModules do
       nil
 
       iex> class_selector(%{ "hello" => "world"}, "hello")
+      ".world"
+
+      iex> class_selector(%{ "hello" => "world"}, :hello)
       ".world"
 
       iex> class_selector(%{ "hello" => "world", "foo" => "bar"}, ["hello", "foo"])
