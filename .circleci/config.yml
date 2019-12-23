@@ -30,7 +30,6 @@ jobs:
           paths:
             - _build
             - ~/.mix
-      - run: mix dialyzer --halt-exit-status
       - run: mix credo
       - run: mix coveralls.json
       - run: bash <(curl -s https://codecov.io/bash) -t "$CODECOV_KEY"
