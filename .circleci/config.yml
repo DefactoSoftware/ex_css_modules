@@ -22,6 +22,10 @@ jobs:
       - restore_cache:
           keys:
             - v1-tools-cache-{{ checksum ".tool-versions" }}
+      - restore_cache:
+          keys:
+            - v1-plt-cache-{{ checksum "mix.lock" }}
+            - v1-plt-cache
       - run:
           name: Install ASDF Plugins
           command: asdf-install-plugins
@@ -66,3 +70,8 @@ jobs:
           paths:
             - "~/.asdf/plugins"
             - "~/.asdf/installs"
+      - save_cache:
+          key: v1-plt-cache-{{ checksum "mix.lock" }}
+          paths:
+            - _build
+            - ~/.mix
