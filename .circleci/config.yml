@@ -14,18 +14,8 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-hex-archive
-      - restore_cache:
-          keys:
-            - v1-mix-deps-{{ checksum "mix.exs" }}-{{ checksum "mix.lock" }}
-            - v1-mix-deps-
-      - restore_cache:
-          keys:
-            - v1-tools-cache-{{ checksum ".tool-versions" }}
-      - restore_cache:
-          keys:
-            - v1-plt-cache-{{ checksum "mix.lock" }}
-            - v1-plt-cache
+            - v1-dependency-cache-{{ checksum "mix.lock" }}
+            - v1-dependency-cache
       - run:
           name: Install ASDF Plugins
           command: asdf-install-plugins
@@ -48,6 +38,9 @@ jobs:
           name: Linting Elixir
           command: mix credo
       - run:
+          name: Running Dializer with PLT file
+          command: mix dialyzer --plt
+      - run:
           name: Running Dializer
           command: mix dialyzer
       - run:
@@ -57,21 +50,8 @@ jobs:
           name: Send Codecov
           command: bash <(curl -s https://codecov.io/bash) -t "$CODECOV_KEY"
       - save_cache:
-          key: v1-hex-archive
+          key: v1-dependency-cache-{{ checksum "mix.lock" }}
           paths:
-            - /root/.mix/archives
-      - save_cache:
-          key: v1-mix-deps-{{ checksum "mix.lock" }}
-          paths:
-            - "deps"
-            - "_build"
-      - save_cache:
-          key: v1-tools-cache-{{ checksum ".tool-versions" }}
-          paths:
-            - "~/.asdf/plugins"
-            - "~/.asdf/installs"
-      - save_cache:
-          key: v1-plt-cache-{{ checksum "mix.lock" }}
-          paths:
+            - deps
             - _build
             - ~/.mix
