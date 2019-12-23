@@ -17,7 +17,7 @@ defmodule ExCSSModules.Mixfile do
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [coveralls: :test, "coveralls.detail": :test],
-      dialyzer: [plt_add_deps: true]
+      dialyzer: [plt_add_apps: [:mix, :ex_unit], check_plt: true]
     ]
   end
 
