@@ -6,15 +6,15 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      - image: elixir:1.9
+      - image: circleci/elixir:1.9.2
         environment:
           MIX_ENV: test
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependency-cache-{{ checksum "mix.lock" }}
-            - v1-dependency-cache
+            - v2-dependency-cache-{{ checksum "mix.lock" }}
+            - v2-dependency-cache
       - run:
           name: Create local hex archive
           command: mix local.hex --force
@@ -25,26 +25,36 @@ jobs:
           name: Installing Elixir dependencies
           command: mix deps.get
       - run:
+          name: Compile dependencies
+          command: mix deps.compile
+      - run:
           name: Compile the Phoenix app
           command: mix compile --warnings-as-errors
+      - save_cache:
+          key: v2-dependency-cache-{{ checksum "mix.lock" }}
+          paths:
+            - deps
+            - _build
+            - ~/.mix
+      - restore_cache:
+          keys:
+            - v1-plt-cache-{{ checksum "mix.lock" }}
+            - v1-plt-cache
+      - run:
+          name: Running Dialyzer
+          command: mix dialyzer --plt
+      - save_cache:
+          key: v1-plt-cache-{{ checksum "mix.lock" }}
+          paths:
+            - _build
+            - ~/.mix
+      - run: mix dialyzer --halt-exit-status
       - run:
           name: Linting Elixir
           command: mix credo
-      - run:
-          name: Running Dializer with PLT file
-          command: mix dialyzer --plt
-      - run:
-          name: Running Dializer
-          command: mix dialyzer
       - run:
           name: Running Elixir tests
           command: mix coveralls.json
       - run:
           name: Send Codecov
           command: bash <(curl -s https://codecov.io/bash) -t "$CODECOV_KEY"
-      - save_cache:
-          key: v1-dependency-cache-{{ checksum "mix.lock" }}
-          paths:
-            - deps
-            - _build
-            - ~/.mix
