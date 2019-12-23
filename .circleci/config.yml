@@ -6,24 +6,36 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      - image: defactosoftware/elixir
+      - image: circleci/elixir:1.9.2
         environment:
           MIX_ENV: test
     steps:
-      - run: mix local.hex --force
-      - run: mix local.rebar --force
       - checkout
       - restore_cache:
           keys:
-            - v1-mix-deps-{{ checksum "mix.lock" }}
+            - v2-dependency-cache-{{ checksum "mix.lock" }}
+            - v2-dependency-cache
+      - run: mix local.hex --force
+      - run: mix local.rebar --force
       - run: mix deps.get
+      - run: mix deps.compile
       - run: mix compile --warnings-as-errors
+      - restore_cache:
+          keys:
+            - v1-plt-cache-{{ checksum "mix.lock" }}
+            - v1-plt-cache
+      - run: mix dialyzer --plt
+      - save_cache:
+          key: v1-plt-cache-{{ checksum "mix.lock" }}
+          paths:
+            - _build
+            - ~/.mix
+      - run: mix credo
       - run: mix coveralls.json
       - run: bash <(curl -s https://codecov.io/bash) -t "$CODECOV_KEY"
-      - run: mix dialyzer
-      - run: mix credo
       - save_cache:
-          key: v1-mix-deps-{{ checksum "mix.lock" }}
+          key: v2-dependency-cache-{{ checksum "mix.lock" }}
           paths:
-            - "deps"
-            - "_build"
+            - deps
+            - _build
+            - ~/.mix
