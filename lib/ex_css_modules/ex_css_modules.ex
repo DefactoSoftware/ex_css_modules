@@ -5,6 +5,9 @@ defmodule ExCSSModules do
   alias __MODULE__
   alias Phoenix.HTML
 
+  @type key :: String.t() | atom()
+  @type key_tuple :: {key, as_boolean(term())}
+
   @doc """
   Reads a valid stylesheet definition. Returns a map if the stylesheet is
   already a map. Reads the file if the stylesheet is a string. Returns an empty
@@ -28,6 +31,7 @@ defmodule ExCSSModules do
       %{}
 
   """
+  @spec stylesheet(String.t() | map()) :: map()
   def stylesheet(definition) when is_map(definition), do: definition
   def stylesheet(definition), do: read_stylesheet(definition)
 
@@ -64,10 +68,14 @@ defmodule ExCSSModules do
       iex> class(%{ "hello" => "world"}, "hello", false)
       nil
 
+      iex> class(%{ "hello" => "world"}, "hello", nil)
+      nil
+
       iex> class(%{"hello" => "world"}, "foo")
       nil
 
   """
+  @spec class(map(), key, as_boolean(term())) :: {:safe, iodata()} | nil
   def class(definition, keys, return_class? \\ true) do
     definition
     |> class_name(keys, return_class?)
@@ -125,6 +133,8 @@ defmodule ExCSSModules do
       nil
 
   """
+  @spec class_name(map(), key | key_tuple | [key, ...] | [key_tuple, ...], as_boolean(term())) ::
+          String.t() | nil
   def class_name(definition, key, return_class? \\ true)
 
   def class_name(_, _, false), do: nil
@@ -177,6 +187,7 @@ defmodule ExCSSModules do
       ".world.bar"
 
   """
+  @spec class_selector(String.t() | map(), key | [key, ...]) :: String.t()
   def class_selector(definition, keys) when is_list(keys) do
     keys
     |> Enum.map(&class_selector(definition, &1))
