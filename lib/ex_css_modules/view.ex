@@ -18,22 +18,18 @@ defmodule ExCSSModules.View do
   """
 
   defmacro __using__(opts \\ []) do
-    {filename, [file: relative_to]} =
-      Code.eval_quoted(opts[:stylesheet], file: __CALLER__.file)
-
-    {embed, _} =
-      Code.eval_quoted(opts[:embed_stylesheet])
-
+    {filename, [file: relative_to]} = Code.eval_quoted(opts[:stylesheet], file: __CALLER__.file)
+    {embed, _} = Code.eval_quoted(opts[:embed_stylesheet])
     filename = Path.expand(filename, Path.dirname(relative_to))
 
     quote do
       @stylesheet unquote(
-        if embed do
-          Macro.escape(ExCSSModules.read_stylesheet(filename))
-        else
-          Macro.escape(filename)
-        end
-      )
+                    if embed do
+                      Macro.escape(ExCSSModules.stylesheet(filename))
+                    else
+                      Macro.escape(filename)
+                    end
+                  )
 
       def stylesheet_definition, do: @stylesheet
 
@@ -42,13 +38,10 @@ defmodule ExCSSModules.View do
       def class(key), do: stylesheet() |> ExCSSModules.class(key)
       def class(key, value), do: stylesheet() |> ExCSSModules.class(key, value)
 
-      def class_name(key) do
-        ExCSSModules.class_name(stylesheet(), key)
-      end
-      def class_name(key, value), do:
-        ExCSSModules.class_name(stylesheet(), key, value)
+      def class_name(key), do: stylesheet() |> ExCSSModules.class_name(key)
+      def class_name(key, value), do: stylesheet() |> ExCSSModules.class_name(key, value)
 
-      def class_selector(key), do: ExCSSModules.class_selector(stylesheet(), key)
+      def class_selector(key), do: stylesheet() |> ExCSSModules.class_selector(key)
     end
   end
 end
