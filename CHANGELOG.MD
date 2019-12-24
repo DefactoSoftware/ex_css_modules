@@ -1,3 +1,9 @@
+# v0.0.6
+
+## Added
+- Add possiblity to call `class/3`, `class_name/3` and `class_selector/2` with an atom as second argument (#22).
+- Add typespecs to functions in ExCSSModules module (#22).
+
 # v0.0.5
 
 ## Added
