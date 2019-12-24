@@ -25,6 +25,7 @@ jobs:
             - v1-plt-cache-{{ checksum "mix.lock" }}
             - v1-plt-cache
       - run: mix dialyzer --plt
+      - run: mix dialyzer --list-unused-filters
       - save_cache:
           key: v1-plt-cache-{{ checksum "mix.lock" }}
           paths:
