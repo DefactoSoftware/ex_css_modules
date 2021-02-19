@@ -48,7 +48,7 @@ defmodule ExCSSModules.Mixfile do
     [
       {:ex_doc, ">= 0.0.0", only: [:dev, :test]},
       {:excoveralls, "~> 0.7", only: :test},
-      {:dialyxir, "1.0.0", only: [:dev, :test]},
+      {:dialyxir, "1.1.0", only: [:dev, :test]},
       {:phoenix_html, "~> 2.10"},
       {:poison, "~> 4.0"},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
