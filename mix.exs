@@ -50,7 +50,7 @@ defmodule ExCSSModules.Mixfile do
       {:excoveralls, "~> 0.7", only: :test},
       {:dialyxir, "1.0.0", only: [:dev, :test]},
       {:phoenix_html, "~> 2.10"},
-      {:poison, "~> 4.0"},
+      {:poison, "~> 5.0"},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false}
     ]
