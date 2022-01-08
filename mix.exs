@@ -9,7 +9,7 @@ defmodule ExCSSModules.Mixfile do
       name: "ExCSSModules",
       source_url: "https://github.com/defactosoftware/ex_css_modules",
       version: @version,
-      elixir: "~> 1.2",
+      elixir: "~> 1.11",
       elixirc_paths: elixirc_paths(Mix.env()),
       build_per_environment: false,
       description: description(),
@@ -49,8 +49,8 @@ defmodule ExCSSModules.Mixfile do
       {:ex_doc, ">= 0.0.0", only: [:dev, :test]},
       {:excoveralls, "~> 0.14.4", only: :test},
       {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
-      {:phoenix_html, ">= 1.0.0"},
-      {:poison, ">= 4.0.0"},
+      {:phoenix_html, "~> 1.0 or ~> 2.0 or ~> 3.0"},
+      {:poison, "~> 4.0 or ~> 5.0"},
       {:mix_test_watch, "~> 1.1", only: :dev, runtime: false},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
     ]
