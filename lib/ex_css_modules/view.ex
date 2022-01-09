@@ -7,7 +7,8 @@ defmodule ExCSSModules.View do
   Use the ExCSSModules.View on a view which defines the JSON for CSS Modules
   as an external resource.
 
-  To embed the stylesheet in the file set :embed_stylesheet to true.
+  To embed the stylesheet in the file set :embed_stylesheet to true. This can
+  also be enabled through the `:embed_by_default` config option.
 
   If adds the following functions to the View:
   - stylesheet/0 - same as ExCSSModules.stylesheet/1 with the stylesheet predefined
@@ -19,7 +20,14 @@ defmodule ExCSSModules.View do
 
   defmacro __using__(opts \\ []) do
     {filename, [file: relative_to]} = Code.eval_quoted(opts[:stylesheet], file: __CALLER__.file)
-    {embed, _} = Code.eval_quoted(opts[:embed_stylesheet])
+
+    embed =
+      Keyword.get(
+        opts,
+        :embed_stylesheet,
+        Application.get_env(:ex_css_modules, :embed_by_default, false)
+      )
+
     filename = Path.expand(filename, Path.dirname(relative_to))
 
     quote do

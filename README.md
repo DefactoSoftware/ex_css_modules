@@ -85,3 +85,7 @@ def cell() do
   end
 end
 ```
+
+### Configuration options
+
+- `embed_by_default`: Global configuration for the `:embed_stylesheet` option of [ExCssModules.View](./lib/view.ex). Can still be overridden by the use option. Useful for configuring different defaults in development and production. Defaults to false.
