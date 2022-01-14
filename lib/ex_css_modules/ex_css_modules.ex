@@ -57,6 +57,10 @@ defmodule ExCSSModules do
 
   Returns nil for a class_name that does not exist.
 
+  Note that this function cannot be used with HEEX templates, as the HTML
+  validation engine does not allow them to be build with arbitrary text.
+  `class_name/3` should be used instead.
+
   ## Examples
 
       iex> class(%{ "hello" => "world"}, "hello")
