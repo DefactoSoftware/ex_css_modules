@@ -40,7 +40,7 @@ defmodule ExCSSModules do
       true ->
         (filename <> ".json")
         |> File.read!()
-        |> Poison.decode!()
+        |> json_library().decode!()
 
       false ->
         %{}
@@ -209,4 +209,6 @@ defmodule ExCSSModules do
 
   defp join_class_name([_ | _] = list), do: Enum.join(list, " ")
   defp join_class_name([]), do: nil
+
+  defp json_library, do: Application.get_env(:ex_css_modules, :json_library, Poison)
 end
