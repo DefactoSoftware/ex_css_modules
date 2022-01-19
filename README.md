@@ -47,6 +47,10 @@ This allows you to use the `class` and `class_name` functions in the template an
 ```eex
   <h1 class="_2313dsc-title">Hello world</h1>
 ```
+
+**Please note that `class` cannot be used in `heex` templates as the HTML
+validation engine does not allow it.**
+
 ## Advanced usage
 
 ### Phoenix.View
@@ -85,3 +89,7 @@ def cell() do
   end
 end
 ```
+
+### Configuration options
+
+- `embed_by_default`: Global configuration for the `:embed_stylesheet` option of [ExCssModules.View](./lib/view.ex). Can still be overridden by the use option. Useful for configuring different defaults in development and production. Defaults to false.
