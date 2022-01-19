@@ -21,7 +21,7 @@ defmodule ExCSSModules.View do
   defmacro __using__(opts \\ []) do
     {filename, [file: relative_to]} = Code.eval_quoted(opts[:stylesheet], file: __CALLER__.file)
 
-    embed =
+    embed_stylesheet? =
       Keyword.get(
         opts,
         :embed_stylesheet,
@@ -32,7 +32,7 @@ defmodule ExCSSModules.View do
 
     quote do
       @stylesheet unquote(
-                    if embed do
+                    if embed_stylesheet? do
                       Macro.escape(ExCSSModules.stylesheet(filename))
                     else
                       Macro.escape(filename)
