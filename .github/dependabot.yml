@@ -8,12 +8,3 @@ updates:
   pull-request-branch-name:
     separator: "-"
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: ex_doc
-    versions:
-    - 0.23.0
-    - 0.24.0
-    - 0.24.1
-  - dependency-name: excoveralls
-    versions:
-    - 0.13.4
