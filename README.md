@@ -47,6 +47,10 @@ This allows you to use the `class` and `class_name` functions in the template an
 ```eex
   <h1 class="_2313dsc-title">Hello world</h1>
 ```
+
+**Please note that `class` cannot be used in `heex` templates as the HTML
+validation engine does not allow it.**
+
 ## Advanced usage
 
 ### Phoenix.View
