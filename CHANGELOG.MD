@@ -1,8 +1,8 @@
 # v0.0.7
 
 ## Added
-- `:embed_by_default` config option to embed stylesheets by default (/DefactoSoftware/ex_css_modules/pull/#67).
-- `:json_library` config option to specify the JSON library (/DefactoSoftware/ex_css_modules/pull/#75).
+- `:embed_by_default` config option to embed stylesheets by default (/DefactoSoftware/ex_css_modules/pull/#67). Thanks @Blond11516!
+- `:json_library` config option to specify the JSON library (/DefactoSoftware/ex_css_modules/pull/#75). Thanks @Blond11516!
 
 # v0.0.6
 
