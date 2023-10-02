@@ -31,18 +31,26 @@ defmodule ExCSSModules do
       %{}
 
   """
-  @spec stylesheet(String.t() | map()) :: map()
-  def stylesheet(definition) when is_map(definition), do: definition
-  def stylesheet(definition), do: read_stylesheet(definition)
+  @spec stylesheet(String.t() | map(), module()) :: map()
+  def stylesheet(definition, task \\ nil)
+  def stylesheet(definition, _task) when is_map(definition), do: definition
+  def stylesheet(definition, task), do: read_stylesheet(definition, task)
 
-  defp read_stylesheet(filename) do
-    case File.exists?(filename) do
-      true ->
+  defp read_stylesheet(filename, task) do
+    cond do
+      File.exists?(filename <> ".json") ->
         (filename <> ".json")
         |> File.read!()
         |> json_library().decode!()
 
-      false ->
+      task && File.exists?(filename) ->
+        with {:ok, json_filename} <- task.run(filename: filename) do
+          json_filename
+          |> File.read!()
+          |> json_library().decode!()
+        end
+
+      true ->
         %{}
     end
   end
