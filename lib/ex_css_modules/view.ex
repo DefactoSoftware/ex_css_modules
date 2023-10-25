@@ -29,12 +29,12 @@ defmodule ExCSSModules.View do
       )
 
     filename = Path.expand(filename, Path.dirname(relative_to))
-    generate_scoped_name_task = Keyword.get(opts, :generate_scoped_name_task)
+    build_json_task = Keyword.get(opts, :build_stylesheet_definitions_json_task, nil)
 
     quote do
       @stylesheet unquote(
                     if embed_stylesheet? do
-                      Macro.escape(ExCSSModules.stylesheet(filename, generate_scoped_name_task))
+                      Macro.escape(ExCSSModules.stylesheet(filename, build_json_task))
                     else
                       Macro.escape(filename)
                     end
@@ -42,7 +42,7 @@ defmodule ExCSSModules.View do
 
       def stylesheet_definition, do: @stylesheet
 
-      def stylesheet, do: ExCSSModules.stylesheet(@stylesheet, unquote(generate_scoped_name_task))
+      def stylesheet, do: ExCSSModules.stylesheet(@stylesheet, unquote(build_json_task))
 
       def class(key), do: stylesheet() |> ExCSSModules.class(key)
       def class(key, value), do: stylesheet() |> ExCSSModules.class(key, value)
