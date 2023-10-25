@@ -1,3 +1,8 @@
+# v0.0.8
+
+## Added
+- `:build_stylesheet_definitions_json_task` config option to run a task for building missing stylesheet definitions JSON file when using `:embed_stylsheet` (/DefactoSoftware/ex_css_modules/pull/#112).
+
 # v0.0.7
 
 ## Added

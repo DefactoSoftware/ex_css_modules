@@ -7,7 +7,26 @@
 
 ExCSSModules defines two ways to read the stylesheet: embedded and read.
 
-If you set the `embed_stylesheet` option to the `use` macro the stylesheet definitions JSON have to be compiled before the application is compiled. This flag is used for production to optimize read times.
+If you set the `embed_stylesheet` option to the `use` macro the stylesheet definitions JSON have to be compiled before the application is compiled. This flag is used for production to optimize read times. Additionally, you can add a task to generate missing stylesheet definitions JSON files when compiling ExCSSModules, to prevent compilation errors when one of the stylesheet definitions JSON might be missing:
+
+```ex
+defmodule Mix.Tasks.GenerateMissingJson do
+  use Mix.Task
+
+  @impl Mix.Task
+
+  def run(filename) do
+    with _exit_code = 0 <-
+           Mix.shell().cmd("npx postcss #{filename} --dir ./tmp/postcss --verbose") do
+      {:ok, filename <> ".json"}
+    else
+      _exit_code ->
+        relative_path = Path.relative_to_cwd(filename)
+        exit("Error generating scoped JSON file ./#{relative_path}.json")
+    end
+  end
+end
+```
 
 If you don't set the flag or set it to false, the stylesheet definition JSON files are read live from the server which creates a lot of IO for each request.
 
@@ -16,7 +35,7 @@ Install from [Hex.pm](https://hex.pm/packages/ex_css_modules):
 
 ```ex
 def deps do
-  [{:ex_css_modules, "~> 0.0.7"}]
+  [{:ex_css_modules, "~> 0.0.8"}]
 end
 ```
 
