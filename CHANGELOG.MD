@@ -1,3 +1,9 @@
+# v0.0.9
+
+## Changed
+- The task `:build_stylesheet_definitions_json_task` would run when a stylesheet definitions JSON file was not found. Now it will also run if the JSON file is empty (/DefactoSoftware/ex_css_modules/pull/#113).
+- Compilation errors now have a more detailed explanation when the JSON file is not found or empty (/DefactoSoftware/ex_css_modules/pull/#113).
+
 # v0.0.8
 
 ## Added

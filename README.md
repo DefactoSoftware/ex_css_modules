@@ -50,7 +50,7 @@ Install from [Hex.pm](https://hex.pm/packages/ex_css_modules):
 
 ```ex
 def deps do
-  [{:ex_css_modules, "~> 0.0.8"}]
+  [{:ex_css_modules, "~> 0.0.9"}]
 end
 ```
 
