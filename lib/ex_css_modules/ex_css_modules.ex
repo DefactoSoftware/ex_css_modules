@@ -44,7 +44,7 @@ defmodule ExCSSModules do
           |> File.read!()
           |> json_library().decode!()
 
-        not is_nil(build_json_task) ->
+        build_json_task ->
           with {:ok, json_filename} <- build_json_task.run(filename: filename) do
             json_filename
             |> File.read!()
