@@ -43,7 +43,7 @@ defmodule ExCSSModules.ViewTest do
       stylesheet:
         __ENV__.file
         |> Path.dirname()
-        |> Path.join("../support/no_stylesheet_definition.css")
+        |> Path.join("../support/no_stylesheet_definitions.css")
   end
 
   describe "stylesheet_definition/0" do
@@ -68,12 +68,28 @@ defmodule ExCSSModules.ViewTest do
       assert ViewModule.StylesheetDefinitions.EmptyObject.Test.stylesheet() == %{}
     end
 
-    test "returns an empty map if the stylesheet definitions json file is empty" do
-      assert ViewModule.StylesheetDefinitions.EmptyFile.Test.stylesheet() == %{}
+    test "raises if the stylesheet definitions json file is empty" do
+      message =
+        """
+        test/support/empty_file.css.json: File is empty.
+        Error compiling ExCSSModules: Remove the file and/or (re)build your style definitions JSON files before compiling your application.
+        """
+
+      assert_raise(CompileError, message, fn ->
+        ViewModule.StylesheetDefinitions.EmptyFile.Test.stylesheet()
+      end)
     end
 
-    test "returns an empty map if the stylesheet definitions json file does not exist" do
-      assert ViewModule.StylesheetDefinitions.NoFile.Test.stylesheet() == %{}
+    test "raises if the stylesheet definitions json file does not exist" do
+      message =
+        """
+        test/support/no_stylesheet_definitions.css.json: File does not exist.
+        Error compiling ExCSSModules: Be sure to build your style definitions JSON files before compiling your application.
+        """
+
+      assert_raise(CompileError, message, fn ->
+        ViewModule.StylesheetDefinitions.NoFile.Test.stylesheet()
+      end)
     end
   end
 
