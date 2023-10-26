@@ -60,7 +60,7 @@ defmodule ExCSSModules do
 
           raise(CompileError, description: message, file: "#{filename}.json")
 
-        empty_file?(filename) ->
+        empty_file?("#{filename}.json") ->
           message =
             """
             File is empty.
