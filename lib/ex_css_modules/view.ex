@@ -11,7 +11,7 @@ defmodule ExCSSModules.View do
   also be enabled through the `:embed_by_default` config option.
 
   If adds the following functions to the View:
-  - stylesheet/0 - same as ExCSSModules.stylesheet/1 with the stylesheet predefined
+  - stylesheet/0 - same as ExCSSModules.stylesheet/2 with the stylesheet predefined
   - class/1 - same as ExCSSModules.class/2 with the stylesheet predefined
   - class_name/1 - same as ExCSSModules.class_name/2 with the stylesheet predefined
   - class_name/2 - same as ExCSSModules.class_name/3 with the stylesheet predefined

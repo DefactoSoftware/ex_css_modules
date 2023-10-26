@@ -37,23 +37,44 @@ defmodule ExCSSModules do
   def stylesheet(definition, build_json_task), do: read_stylesheet(definition, build_json_task)
 
   defp read_stylesheet(filename, build_json_task) do
-    cond do
-      File.exists?(filename <> ".json") ->
-        (filename <> ".json")
-        |> File.read!()
-        |> json_library().decode!()
-
-      build_json_task && File.exists?(filename) ->
-        with {:ok, json_filename} <- build_json_task.run(filename: filename) do
-          json_filename
+    if File.exists?(filename) do
+      cond do
+        File.exists?("#{filename}.json") && not empty_file?("#{filename}.json") ->
+          "#{filename}.json"
           |> File.read!()
           |> json_library().decode!()
-        end
 
-      true ->
-        %{}
+        build_json_task ->
+          with {:ok, json_filename} <- build_json_task.run(filename: filename) do
+            json_filename
+            |> File.read!()
+            |> json_library().decode!()
+          end
+
+        not File.exists?("#{filename}.json") ->
+          message =
+            """
+            File does not exist.
+            Error compiling ExCSSModules: Be sure to build your style definitions JSON files before compiling your application.
+            """
+
+          raise(CompileError, description: message, file: "#{filename}.json")
+
+        empty_file?("#{filename}.json") ->
+          message =
+            """
+            File is empty.
+            Error compiling ExCSSModules: Remove the file and/or (re)build your style definitions JSON files before compiling your application.
+            """
+
+          raise(CompileError, description: message, file: "#{filename}.json")
+      end
+    else
+      %{}
     end
   end
+
+  defp empty_file?(filename), do: File.read!(filename) == ""
 
   @doc """
   Reads the class definitions from the definition map and maps them to a class
