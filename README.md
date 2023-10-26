@@ -7,7 +7,11 @@
 
 ExCSSModules defines two ways to read the stylesheet: embedded and read.
 
-If you set the `embed_stylesheet` option to the `use` macro the stylesheet definitions JSON have to be compiled before the application is compiled. This flag is used for production to optimize read times. Additionally, you can add a task to generate missing stylesheet definitions JSON files when compiling ExCSSModules, to prevent compilation errors when one of the stylesheet definitions JSON might be missing:
+If you set the `embed_stylesheet` option to the `use` macro the stylesheet definitions JSON have to be compiled before the application is compiled. This flag is used for production to optimize read times. 
+
+If you don't set the flag or set it to false, the stylesheet definition JSON files are read live from the server which creates a lot of IO for each request.
+
+Additionally, you can pass a task to generate missing stylesheet definitions JSON files when compiling ExCSSModules, to prevent compilation errors when one of the stylesheet definitions JSON might be missing:
 
 ```ex
 defmodule Mix.Tasks.GenerateMissingJson do
@@ -28,7 +32,18 @@ defmodule Mix.Tasks.GenerateMissingJson do
 end
 ```
 
-If you don't set the flag or set it to false, the stylesheet definition JSON files are read live from the server which creates a lot of IO for each request.
+This task can be passed through the option `build_stylesheet_definitions_json_task`: 
+
+```ex
+use ExCSSModules.View,
+  namespace: MyApplicationWeb,
+  embed_stylesheet: ApplicationSettings.built_for?(:prod),
+  build_stylesheet_definitions_json_task: unquote(Mix.Tasks.BuildScopedJson),
+  stylesheet:
+    __ENV__.file
+    |> Path.dirname()
+    |> Path.join("./style.css")
+```
 
 ## Installation
 Install from [Hex.pm](https://hex.pm/packages/ex_css_modules):

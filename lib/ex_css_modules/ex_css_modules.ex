@@ -38,8 +38,8 @@ defmodule ExCSSModules do
 
   defp read_stylesheet(filename, build_json_task) do
     cond do
-      File.exists?(filename <> ".json") ->
-        (filename <> ".json")
+      File.exists?("#{filename}.json") && !empty_file?("#{filename}.json") ->
+        "#{filename}.json"
         |> File.read!()
         |> json_library().decode!()
 
@@ -54,6 +54,8 @@ defmodule ExCSSModules do
         %{}
     end
   end
+
+  defp empty_file?(filename), do: File.read!(filename) == ""
 
   @doc """
   Reads the class definitions from the definition map and maps them to a class
