@@ -38,7 +38,7 @@ This task can be passed through the option `build_stylesheet_definitions_json_ta
 use ExCSSModules.View,
   namespace: MyApplicationWeb,
   embed_stylesheet: ApplicationSettings.built_for?(:prod),
-  build_stylesheet_definitions_json_task: unquote(Mix.Tasks.BuildScopedJson),
+  build_stylesheet_definitions_json_task: unquote(Mix.Tasks.GenerateMissingJson),
   stylesheet:
     __ENV__.file
     |> Path.dirname()
