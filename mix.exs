@@ -52,7 +52,8 @@ defmodule ExCSSModules.Mixfile do
       {:phoenix_html, "~> 1.0 or ~> 2.0 or ~> 3.0"},
       {:poison, "~> 4.0 or ~> 5.0", optional: true},
       {:mix_test_watch, "~> 1.1", only: :dev, runtime: false},
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:ssl_verify_fun, "~> 1.1.7", override: true}
     ]
   end
 end
