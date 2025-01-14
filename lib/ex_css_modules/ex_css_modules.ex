@@ -108,7 +108,7 @@ defmodule ExCSSModules do
       nil
 
   """
-  @spec class(map(), key, as_boolean(term())) :: {:safe, iodata()} | nil
+  @spec class(map(), key | [key, ...], as_boolean(term())) :: {:safe, iodata()} | nil
   def class(definition, keys, return_class? \\ true) do
     definition
     |> class_name(keys, return_class?)

@@ -1,3 +1,8 @@
+# v0.0.10
+
+## Changed
+- Update typespecs for the `class/3` helper to allow for a list of class names (in addition to a single class name).
+
 # v0.0.9
 
 ## Changed
